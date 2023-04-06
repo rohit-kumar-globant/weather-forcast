@@ -15,7 +15,12 @@ export function getDayName(dt) {
     const weekday = dt * 1000
     return newDate.setTime(weekday)
 }
-
+export function getTimeFormat(timeString) {
+    console.log(timeString)
+    const date = new Date(`1970-01-01T${timeString}`);
+    const time = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }).format(date);
+    return time;
+}
 export function getDateFormat(dateString) {
     const dateObj = new Date(dateString);
     const options = { month: "long", day: "numeric", hour: "numeric", minute: "numeric" };
