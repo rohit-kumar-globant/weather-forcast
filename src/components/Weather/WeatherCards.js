@@ -1,8 +1,9 @@
-import React from 'react'
 import { map } from 'ramda';
 import moment from 'moment';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from "@reach/router";
+// import { navigate, Link } from '@reach/router';
 
 import './WeatherCards.scss';
 
@@ -15,8 +16,10 @@ export const WeatherCards = ({ dailyData }) => {
     const navigate = useNavigate();
 
     const renderWeatherDetailsPage = (item) => {
+        console.log('item', item)
         navigate(`/weather-details/${item}`)
     }
+
     return (
         <>
             {dailyData && map((item, index) => (

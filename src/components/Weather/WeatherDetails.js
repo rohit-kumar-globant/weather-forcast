@@ -1,31 +1,33 @@
 import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
+import { map, filter, includes, split } from 'ramda';
 import { useSelector } from 'react-redux';
-
+// import { useNavigate, useParams } from "@reach/router";
+// import { navigate } from '@reach/router';
 import './WeatherDetails.scss';
 import LineChart from '../ChartComponent/LineChart';
 import { getTimeFormat } from '../../helpers/weather.helper';
 
 
 const WeatherDetails = () => {
-    const weather = useSelector(state => state);
+    const weather = useSelector(state => state.weather);
     const { item } = useParams();
     const navigate = useNavigate();
     const { weatherData } = weather;
+    const { list } = weatherData || {};
 
-    const oneDayData = weatherData.list?.filter(day => day.dt_txt.includes(item.split(" ")[0]));
+    const oneDayData = list && filter(day => includes((split(" ", item)[0]), day.dt_txt), list);
 
-    const time = oneDayData.map((item) => {
-        return getTimeFormat(item.dt_txt.split(' ')[1]);
-    })
+    const time = map((item) => {
+        return getTimeFormat(split(' ', item.dt_txt)[1]);
+    }, oneDayData)
 
-    const temp = oneDayData.map((item) => {
+    const temp = map((item) => {
         return item.main.temp;
-
-    });
+    }, oneDayData)
 
     const userData = {
-        labels: (time),
+        labels: time,
         datasets: [{
             label: "3 hour forcast",
             data: temp,
